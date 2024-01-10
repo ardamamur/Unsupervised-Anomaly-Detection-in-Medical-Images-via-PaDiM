@@ -1,0 +1,18 @@
+dataset:
+  class_names : [
+    'absent_sentum',
+    'artefacts',
+    'craniatomy',
+    'dural',
+    'ea_mass',
+    'edema',
+    'encephalo',
+    'extra_axial', 
+  ]
+  path : '/home/mamur/TUM/Seminar/dataset'
+  resize : 128
+  cropsize : 128
+  batch_size : 1
+
+model:
+  backbone : 'wide_resnet50_2'
