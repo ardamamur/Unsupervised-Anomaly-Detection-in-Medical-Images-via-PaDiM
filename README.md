@@ -1,6 +1,7 @@
-# Unsupervised Anomaly Detection in Medical Images via PaDiM
-PaDiM : a Patch Distribution Modeling Framework for Anomaly Detection and Localization
-![alt text](https://github.com/ardamamur/Unsupervised-Anomaly-Detection-in-Medical-Images-via-PaDiM.git/imgs/padim.png?raw=true)
+
+## Unsupervised Anomaly Detection in Medical Images via PaDiM
+![alt text](https://miro.medium.com/v2/resize:fit:1400/1*nETEVc6NilhFnXzxcr9RgA.png)
+
 ## Project Abstract
 PaDiM, to concurrently detect and localize anomalies
 in images in a one-class learning setting. PaDiM makes use
