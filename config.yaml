@@ -1,18 +1,10 @@
 dataset:
-  class_names : [
-    'absent_sentum',
-    'artefacts',
-    'craniatomy',
-    'dural',
-    'ea_mass',
-    'edema',
-    'encephalo',
-    'extra_axial', 
-  ]
-  path : '/home/mamur/TUM/Seminar/dataset'
+  ann_path : '/home/mamur/TUM/Seminar/data/splits'
+  path : '/home/mamur/TUM/Seminar/data'
+  name : 'fast_ixi' # fast , ixi, fast_ixi
   resize : 128
   cropsize : 128
   batch_size : 1
 
 model:
-  backbone : 'wide_resnet50_2'
+  backbone : 'resnet18'
