@@ -1,7 +1,8 @@
 dataset:
-  ann_path : '/home/mamur/TUM/Seminar/data/splits'
-  path : '/home/mamur/TUM/Seminar/data'
-  name : 'fast_ixi' # fast , ixi, fast_ixi
+  ann_path : '/home/guests/usr_mlmi/arda/padim/data/splits'
+  path : '/home/guests/usr_mlmi/arda/padim/data'
+  save_dir : '/home/guests/usr_mlmi/arda/padim/Unsupervised-Anomaly-Detection-in-Medical-Images-via-PaDiM/results'
+  name : 'fast_ixi'
   resize : 128
   cropsize : 128
   batch_size : 1

@@ -13,7 +13,6 @@ class DataHandler():
         split_path = self.opt['dataset']['ann_path']
         # get all the file names in the split path
         split_files = os.listdir(split_path)
-        print(split_files)
         class_names = {
             'absent_septum' : 0,
             'artefacts' : 0,
@@ -42,7 +41,6 @@ class DataHandler():
         for file in split_files:
             file_path = os.path.join(split_path, file)
             df = pd.read_csv(file_path)
-            print
             if 'ixi' in file:
                 path = self.opt['dataset']['path']
                 df['filename'] = df['filename'].str.replace('./data', path, regex=False)
@@ -77,7 +75,6 @@ class DataHandler():
                         continue
 
                     else:
-                        print(file)
                         df['filename'] = df['filename'].str.replace('./data', path, regex=False)
                         #df['full_map'] = df['filename']
                         #df['full_map'] = df['full_map'].str.replace('.png', '_brain_map_full.png', regex=False)
@@ -123,7 +120,6 @@ class DataHandler():
 
                     if class_names[abnormal_class] == 0:
                         class_names[abnormal_class] = 1
-                        print(abnormal_class)
                         img_file = os.path.join(split_path, (abnormal_class + '.csv'))
                         img_neg_file = os.path.join(split_path, (abnormal_class + '_neg.csv'))
                         img_pos_file = os.path.join(split_path, (abnormal_class + '_ann.csv'))
@@ -183,8 +179,6 @@ class DataHandler():
                         data_df = pd.concat([data_df, data_to_append], ignore_index=True)
 
                     else:
-                        print('class already exists')
-                        print(abnormal_class)
                         continue
 
 

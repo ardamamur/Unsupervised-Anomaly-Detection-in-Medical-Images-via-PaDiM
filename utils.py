@@ -14,7 +14,7 @@ def read_config(file_path):
     except Exception as e:
         print(f"Error reading the config file: {e}")
         return None
-    
+
 def denormalization(x):
     mean = np.array([0.485, 0.456, 0.406])
     std = np.array([0.229, 0.224, 0.225])
@@ -23,66 +23,45 @@ def denormalization(x):
     return x
 
 
-def plot_fig(test_img, scores, gts_full, gts_pos, gts_neg, threshold, save_dir, class_name):
+def plot_fig(test_img, scores, gts_neg, gts, threshold, save_dir, class_name):
     num = len(scores)
     vmax = scores.max() * 255.
     vmin = scores.min() * 255.
     for i in range(num):
         img = test_img[i]
         img = denormalization(img)
-        gt_pos = gts_pos[i].transpose(1, 2, 0).squeeze()
+        gt = gts[i].transpose(1, 2, 0).squeeze()
         gt_neg = gts_neg[i].transpose(1, 2, 0).squeeze()
-        gt_full = gts_full[i].transpose(1, 2, 0).squeeze()
         heat_map = scores[i] * 255
+        heat_map = heat_map * 255
         mask = scores[i]
-
-        # pos_mask
-        pos_mask = mask.copy()
-        pos_mask[pos_mask < threshold] = 0
-        pos_mask[pos_mask >= threshold] = 1
-
-        # neg_mask
-        neg_mask = mask.copy()
-        neg_mask[neg_mask > threshold] = 0
-        neg_mask[neg_mask <= threshold] = 1
-
+        mask[mask > threshold] = 1
+        mask[mask <= threshold] = 0
         kernel = morphology.disk(4)
-        pos_mask = morphology.opening(pos_mask, kernel)
-        neg_mask = morphology.opening(neg_mask, kernel)
-        
-        pos_mask *= 255
-        neg_mask *= 255
-
-        pos_vis_img = mark_boundaries(img, pos_mask, color=(1, 0, 0), mode='thick')
-        neg_vis_img = mark_boundaries(img, neg_mask, color=(1, 0, 0), mode='thick')
-
-        fig_img, ax_img = plt.subplots(1, 9, figsize=(12, 3))
+        mask = morphology.opening(mask, kernel)
+        mask *= 255
+        vis_img = mark_boundaries(img, mask, color=(1, 0, 0), mode='thick')
+        fig_img, ax_img = plt.subplots(1, 6, figsize=(12, 3))
         fig_img.subplots_adjust(right=0.9)
         norm = matplotlib.colors.Normalize(vmin=vmin, vmax=vmax)
-
         for ax_i in ax_img:
             ax_i.axes.xaxis.set_visible(False)
             ax_i.axes.yaxis.set_visible(False)
         ax_img[0].imshow(img)
-        ax_img[0].title.set_text('Image')
-        ax_img[1].imshow(gt_full, cmap='gray')
-        ax_img[1].title.set_text('GroundTruth Full')
-        ax_img[2].imshow(gt_pos, cmap='gray')
-        ax_img[2].title.set_text('GroundTruth Positive')
-        ax_img[3].imshow(gt_neg, cmap='gray')
-        ax_img[3].title.set_text('GroundTruth Negative')
-        ax = ax_img[4].imshow(heat_map, cmap='jet', norm=norm)
-        ax_img[4].imshow(img, cmap='gray', interpolation='none')
-        ax_img[4].imshow(heat_map, cmap='jet', alpha=0.5, interpolation='none')
-        ax_img[4].title.set_text('Predicted heat map')
-        ax_img[5].imshow(pos_mask, cmap='gray')
-        ax_img[5].title.set_text('Predicted mask Positive')
-        ax_img[6].imshow(neg_mask, cmap='gray')
-        ax_img[6].title.set_text('Predicted mask Negative')
-        ax_img[7].imshow(pos_vis_img)
-        ax_img[7].title.set_text('Segmentation result Positive')
-        ax_img[8].imshow(neg_vis_img)
-        ax_img[8].title.set_text('Segmentation result Negative')
+        ax_img[0].title.set_text('Input')
+        ax_img[1].imshow(gt, cmap='gray')
+        ax_img[1].title.set_text('GT Positive')
+        ax_img[2].imshow(gt_neg, cmap='gray')
+        ax_img[2].title.set_text('GT Negative')
+        
+        ax = ax_img[3].imshow(heat_map, cmap='jet', norm=norm)
+        ax_img[3].imshow(img, cmap='gray', interpolation='none')
+        ax_img[3].imshow(heat_map, cmap='jet', alpha=0.5, interpolation='none')
+        ax_img[3].title.set_text('Anomaly Map')
+        ax_img[4].imshow(mask, cmap='gray')
+        ax_img[4].title.set_text('Predicted Mask')
+        ax_img[5].imshow(vis_img)
+        ax_img[5].title.set_text('Localization')
         left = 0.92
         bottom = 0.15
         width = 0.015
