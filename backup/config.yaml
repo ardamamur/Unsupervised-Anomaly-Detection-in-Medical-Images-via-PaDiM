@@ -1,0 +1,15 @@
+dataset:
+  ann_path : '/home/mamur/TUM/Seminar/Unsupervised-Anomaly-Detection-in-Medical-Images-via-PaDiM/data/splits'
+  path : '/home/mamur/TUM/Seminar/Unsupervised-Anomaly-Detection-in-Medical-Images-via-PaDiM/data'
+  save_dir : '/home/mamur/TUM/Seminar/Unsupervised-Anomaly-Detection-in-Medical-Images-via-PaDiM/results'
+  name : 'fast_ixi'
+  target_size : !<tag:yaml.org,2002:seq> [128,128]
+  resize : 128
+  cropsize : 128
+  batch_size : 1
+
+model:
+  seed : 1024
+  backbone : 'resnet18'
+  target_dimension : 448
+  output_dimension : 180

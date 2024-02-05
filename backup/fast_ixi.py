@@ -18,7 +18,7 @@ class FAST_IXI(Dataset):
         self.eval_class = eval_class
 
         # set transforms
-        self.transform_x = T.Compose([T.Resize(self.resize, Image.ANTIALIAS),
+        self.transform_x = T.Compose([T.Resize(self.resize, Image.BICUBIC),
                                       T.CenterCrop(self.cropsize),
                                       T.ToTensor(),
                                       T.Normalize(mean=[0.485, 0.456, 0.406],
