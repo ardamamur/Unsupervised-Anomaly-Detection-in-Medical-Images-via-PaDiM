@@ -1,0 +1,14 @@
+dataset:
+  ann_path : '/home/guests/usr_mlmi/arda/padim/Unsupervised-Anomaly-Detection-in-Medical-Images-via-PaDiM/data/splits'
+  path : '/home/guests/usr_mlmi/arda/padim/Unsupervised-Anomaly-Detection-in-Medical-Images-via-PaDiM/data'
+  save_dir : '/home/guests/usr_mlmi/arda/padim/Unsupervised-Anomaly-Detection-in-Medical-Images-via-PaDiM/results'
+  name : 'fast_ixi'
+  resize : 128
+  cropsize : 128
+  target_size : !<tag:yaml.org,2002:seq> [128,128]
+  batch_size : 1
+
+model:
+  backbone : 'wide_resnet50_2'
+  target_dimension : 1792
+  output_dimension : 550
