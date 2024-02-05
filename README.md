@@ -30,7 +30,7 @@
 This repository contains the implementation of PaDiM (Patch Distribution Modeling), an unsupervised learning algorithm for anomaly detection in images. This project is based on a comparative study of unsupervised learning paradigms, focusing on PaDiM and Patched Diffusion Models. Our study explores the effectiveness of PaDiM in detecting anomalies with high precision and low computational cost, making it suitable for a wide range of applications from industrial inspection to medical diagnosis.
 For more information, please follow the link below. 
 
-### [Constrating Unsupervised Learning Paradigms: A Comparative Study of PaDiM and Patched Difussion Models in MRI Anomaly Detection](https://amber-gram-6b4.notion.site/Constrating-Unsupervised-Learning-Paradigms-A-Comparative-Study-of-PaDiM-and-Patched-Difussion-Mode-3e70a0e097444900a05a07ebaafd909e)
+#### [Constrating Unsupervised Learning Paradigms: A Comparative Study of PaDiM and Patched Difussion Models in MRI Anomaly Detection](https://amber-gram-6b4.notion.site/Constrating-Unsupervised-Learning-Paradigms-A-Comparative-Study-of-PaDiM-and-Patched-Difussion-Mode-3e70a0e097444900a05a07ebaafd909e)
 
 ## 🏁 Getting Started 
 
