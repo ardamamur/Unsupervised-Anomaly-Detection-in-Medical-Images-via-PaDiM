@@ -23,28 +23,15 @@ class TrainDataset(Dataset):
         self.target_size = target_size
         self.data = data
 
-        self.transform = T.Compose([T.Resize(self.target_size, Image.BICUBIC),
-                                      T.CenterCrop(self.target_size),
-                                      T.Pad(((self.target_size[1] - self.target_size[0]) // 2, 0), fill=0),
-                                      T.ToTensor(),
-                                      T.Normalize(mean=[0.485, 0.456, 0.406],
-                                                  std=[0.229, 0.224, 0.225])])
-
     def __len__(self):
         return len(self.data)
 
     def __getitem__(self, idx):
         # Load image
         img = Image.open(self.data[idx]).convert('RGB')
-        # Pad to square
-        #
-        # Resize
-        #img = img.resize(self.target_size, Image.BICUBIC)
-        # Convert to tensor
-        #img = transforms.ToTensor()(img)
-        # create labels : 0 for normal, 1 for abnormal
-        img = self.transform(img)
-        #img = T.Pad(((img.height - img.width) // 2, 0), fill=0)(img)
+        img = T.Pad(((img.height - img.width) // 2, 0), fill=0)(img)
+        img = img.resize(self.target_size, Image.BICUBIC)
+        img = T.ToTensor()(img)
         return img
 
 

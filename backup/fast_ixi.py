@@ -4,6 +4,7 @@ from tqdm import tqdm
 
 import torch
 from torch.utils.data import Dataset
+from torchvision import transforms
 from torchvision import transforms as T
 
 class FAST_IXI(Dataset):
@@ -17,15 +18,15 @@ class FAST_IXI(Dataset):
         self.record_df = records
         self.eval_class = eval_class
 
-        # set transforms
-        self.transform_x = T.Compose([T.Resize(self.resize, Image.BICUBIC),
-                                      T.CenterCrop(self.cropsize),
-                                      T.ToTensor(),
-                                      T.Normalize(mean=[0.485, 0.456, 0.406],
-                                                  std=[0.229, 0.224, 0.225])])
-        self.transform_mask = T.Compose([T.Resize(self.resize, Image.NEAREST),
-                                         T.CenterCrop(self.cropsize),
-                                         T.ToTensor()])
+        # # set transforms
+        # self.transform_x = T.Compose([T.Resize(self.resize, Image.ANTIALIAS),
+        #                               T.CenterCrop(self.cropsize),
+        #                               T.ToTensor(),
+        #                               T.Normalize(mean=[0.485, 0.456, 0.406],
+        #                                           std=[0.229, 0.224, 0.225])])
+        # self.transform_mask = T.Compose([T.Resize(self.resize, Image.NEAREST),
+        #                                  T.CenterCrop(self.cropsize),
+        #                                  T.ToTensor()])
         
         # load dataset
         if self.is_train:
@@ -41,39 +42,49 @@ class FAST_IXI(Dataset):
     def __getitem__(self, index):
         x = self.x[index]
         y = self.y[index]
-        
         x = Image.open(x).convert('RGB')
-        x = self.transform_x(x)
 
+
+        
         # since only normal images will be used in training, mask image will be all zeros
         if self.is_train:
-            mask = torch.zeros(1, self.cropsize, self.cropsize)
+            # If self.resize is an integer, replace it with a tuple (self.resize, self.resize)
+            # Example: If self.resize was 224, it should now be (224, 224)
+            x = transforms.Pad(((x.height - x.width) // 2, 0), fill=0)(x)
+            x = x.resize((self.resize, self.resize), Image.BICUBIC)  # Adjust this line
+            x = transforms.ToTensor()(x)
+            mask = torch.zeros(1, self.resize, self.resize)
             return x, y, mask
         
         # for abnormal images, load the mask image
         else:
+            x = x.resize((self.resize, self.resize), Image.BICUBIC)
+            x = transforms.ToTensor()(x)
             full_map = self.full_maps[index]
             pos_mask = self.pos_masks[index]
             neg_mask = self.neg_masks[index]
 
             if full_map is not None:
                 full_map = Image.open(full_map)
-                full_map = self.transform_mask(full_map)
+                full_map = full_map.resize((self.resize, self.resize), Image.BICUBIC)
+                full_map = transforms.ToTensor()(full_map)
             else:
                 full_map = torch.zeros(1, self.cropsize, self.cropsize)
 
             if pos_mask is not None:
                 #print('full_map is not None')
                 pos_mask = Image.open(pos_mask)
-                pos_mask = self.transform_mask(pos_mask)
+                pos_mask = pos_mask.resize((self.resize, self.resize), Image.BICUBIC)
+                pos_mask = transforms.ToTensor()(pos_mask)
             else:
-                pos_mask = torch.zeros(1, self.cropsize, self.cropsize)
+                pos_mask = torch.zeros(1, self.resize, self.resize)
 
             if neg_mask is not None:
                 neg_mask = Image.open(neg_mask)
-                neg_mask = self.transform_mask(neg_mask)
+                neg_mask = neg_mask.resize((self.resize, self.resize), Image.BICUBIC)
+                neg_mask = transforms.ToTensor()(neg_mask)
             else:
-                neg_mask = torch.zeros(1, self.cropsize, self.cropsize)
+                neg_mask = torch.zeros(1, self.resize, self.resize)
 
             return x, y, full_map, pos_mask, neg_mask
         
