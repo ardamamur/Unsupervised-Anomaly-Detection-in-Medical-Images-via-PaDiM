@@ -112,7 +112,7 @@ Below is the implementation results of the test set (ROCAUC & AUPRC) on the [FAS
 ### Qualitatives
 ![Result Image 1](https://github.com/ardamamur/Unsupervised-Anomaly-Detection-in-Medical-Images-via-PaDiM/blob/main/sources/artefacts_5.png)
 
-![Result Image 2](https://github.com/ardamamur/Unsupervised-Anomaly-Detection-in-Medical-Images-via-PaDiM/sources/mass_13.png?raw=true)
+![Result Image 2](https://github.com/ardamamur/Unsupervised-Anomaly-Detection-in-Medical-Images-via-PaDiM/blob/main/sources/mass_13.png?raw=true)
 
 ![Result Image 3](https://github.com/ardamamur/Unsupervised-Anomaly-Detection-in-Medical-Images-via-PaDiM/sources/mass_4.png?raw=true)
 
